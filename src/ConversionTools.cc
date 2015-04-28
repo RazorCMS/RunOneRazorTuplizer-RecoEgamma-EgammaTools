@@ -290,7 +290,7 @@ reco::ConversionRef ConversionTools::matchedConversion(const reco::SuperCluster 
 
 //--------------------------------------------------------------------------------------------------
 bool ConversionTools::hasMatchedPromptElectron(const reco::SuperClusterRef &sc, const edm::Handle<reco::GsfElectronCollection> &eleCol,
-                   const edm::Handle<reco::ConversionCollection> &convCol, const math::XYZPoint &beamspot, float lxyMin, float probMin, unsigned int nHitsBeforeVtxMax)
+					       const edm::Handle<reco::ConversionCollection> &convCol, const math::XYZPoint &beamspot, bool allowCkfMatch, float lxyMin, float probMin, unsigned int nHitsBeforeVtxMax)
 {
 
   //check if a given SuperCluster matches to at least one GsfElectron having zero expected inner hits
@@ -306,7 +306,7 @@ bool ConversionTools::hasMatchedPromptElectron(const reco::SuperClusterRef &sc, 
     if (it->gsfTrack()->trackerExpectedHitsInner().numberOfHits()>0) continue;
 
     //check if electron is matching to a conversion
-    if (hasMatchedConversion(*it,convCol,beamspot,lxyMin,probMin,nHitsBeforeVtxMax)) continue;
+    if (hasMatchedConversion(*it,convCol,beamspot,allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax)) continue;
    
    
     return true;
@@ -320,7 +320,7 @@ bool ConversionTools::hasMatchedPromptElectron(const reco::SuperClusterRef &sc, 
 
 //--------------------------------------------------------------------------------------------------
 reco::GsfElectronRef ConversionTools::matchedPromptElectron(const reco::SuperClusterRef &sc, const edm::Handle<reco::GsfElectronCollection> &eleCol,
-                   const edm::Handle<reco::ConversionCollection> &convCol, const math::XYZPoint &beamspot, float lxyMin, float probMin, unsigned int nHitsBeforeVtxMax)
+                   const edm::Handle<reco::ConversionCollection> &convCol, const math::XYZPoint &beamspot, bool allowCkfMatch, float lxyMin, float probMin, unsigned int nHitsBeforeVtxMax)
 {
 
   //check if a given SuperCluster matches to at least one GsfElectron having zero expected inner hits
@@ -338,7 +338,7 @@ reco::GsfElectronRef ConversionTools::matchedPromptElectron(const reco::SuperClu
     if (it->gsfTrack()->trackerExpectedHitsInner().numberOfHits()>0) continue;
 
     //check if electron is matching to a conversion
-    if (hasMatchedConversion(*it,convCol,beamspot,lxyMin,probMin,nHitsBeforeVtxMax)) continue;
+    if (hasMatchedConversion(*it,convCol,beamspot,allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax)) continue;
    
    
     match = GsfElectronRef(eleCol,it-eleCol->begin());
